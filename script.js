@@ -151,15 +151,9 @@ function createFiatPerBitsCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
     
-    // Format the rate with appropriate decimal places
-    let formattedRate;
-    if (rate >= 1) {
-        formattedRate = rate.toFixed(2);
-    } else if (rate >= 0.01) {
-        formattedRate = rate.toFixed(4);
-    } else {
-        formattedRate = rate.toFixed(6);
-    }
+    // Format the rate with 6 decimal places and space after 3 digits
+    const sixDecimalRate = rate.toFixed(6);
+    const formattedRate = sixDecimalRate.replace(/(\.\d{3})(\d{3})$/, '$1 $2');
     
     card.innerHTML = `
         <div class="currency-info">
@@ -181,12 +175,12 @@ function createBitsPerFiatCard(currencyCode, config, fiatAmount, bitsAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
     
-    // Format BITS amount
+    // Format BITS amount with 2 decimal places
     const formattedBits = bitsAmount >= 1000000 
         ? (bitsAmount / 1000000).toFixed(2) + 'M'
         : bitsAmount >= 1000
-        ? (bitsAmount / 1000).toFixed(1) + 'K'
-        : bitsAmount.toFixed(0);
+        ? (bitsAmount / 1000).toFixed(2) + 'K'
+        : bitsAmount.toFixed(2);
     
     card.innerHTML = `
         <div class="currency-info">
