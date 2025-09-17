@@ -16,6 +16,34 @@ body {
     margin-bottom: 10px;
 }
 
+.main-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.main-tab-btn {
+    background: #374151;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.2s;
+    min-width: 80px;
+}
+
+.main-tab-btn:hover {
+    background: #4b5563;
+}
+
+.main-tab-btn.active {
+    background: #2563eb;
+}
+
 .navigation {
     display: flex;
     justify-content: center;
@@ -146,6 +174,14 @@ body {
 }
 
 .page.active {
+    display: block;
+}
+
+.main-tab {
+    display: none;
+}
+
+.main-tab.active {
     display: block;
 }
 

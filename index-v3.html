@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitcoin Exchange Rates</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="header">
         <h1>Bitcoin Exchange Rates</h1>
         <div class="info-box">
             1 Bitcoin = 1,000,000 BITS = 100,000,000 satoshis
         </div>
-        
+
         <!-- Main Tabs -->
         <div class="main-tabs">
             <button class="main-tab-btn" onclick="showMainTab('btc')">BTC</button>
             <button class="main-tab-btn active" onclick="showMainTab('bts')">BTS</button>
             <button class="main-tab-btn" onclick="showMainTab('sts')">STS</button>
         </div>
-        
+
         <!-- Sub Navigation (only for BTS tab) -->
         <div id="sub-navigation" class="navigation">
             <button class="nav-btn active" onclick="showPage('fiat-per-bits')">Fiat per BITS</button>
             <button class="nav-btn" onclick="showPage('bits-per-fiat')">BITS per Fiat</button>
         </div>
-        
+
         <div class="last-update" id="lastUpdate">Loading...</div>
         <button class="refresh-btn" onclick="fetchRates()">Refresh Rates</button>
     </div>
@@ -65,4 +67,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
