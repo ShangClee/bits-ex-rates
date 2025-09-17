@@ -24,6 +24,13 @@ const currencies = {
 
 let currentRates = {};
 
+const SAMPLE_RATES = {
+    EUR: 0.85,
+    GBP: 0.73,
+    JPY: 110.25,
+    BTC: 0.000021
+};
+
 function showPage(pageId) {
     // Hide all pages
     document.querySelectorAll('.page').forEach(page => {
@@ -52,47 +59,28 @@ function showPage(pageId) {
 }
 
 async function fetchRates() {
-    const loadingEl = document.getElementById('loading');
-    const errorEl = document.getElementById('error');
+    const display = document.querySelector('.rate-card');
+    display.innerHTML = '<p>Loading rates...</p>';
     
-    // Show loading state
-    loadingEl.style.display = 'block';
-    errorEl.style.display = 'none';
-    hideAllContainers();
-
     try {
-        const currencyList = Object.keys(currencies).join(',');
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
         
-        // Use a CORS proxy for local development
-        const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const apiUrl = isLocal 
-            ? `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currencyList}`)}`
-            : `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currencyList}`;
-        
-        const response = await fetch(apiUrl);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         
         const data = await response.json();
-        
-        // Handle different response formats
-        const bitcoinRates = isLocal ? JSON.parse(data.contents).bitcoin : data.bitcoin;
-        
-        if (!bitcoinRates) {
-            throw new Error('Invalid data format received');
-        }
-        
-        currentRates = bitcoinRates;
-        displayCurrentPage();
-        updateLastUpdateTime();
-        
+        currentRates = data.rates;
     } catch (error) {
-        console.error('Error fetching rates:', error);
-        showError(`Failed to fetch exchange rates: ${error.message}. Try hosting the file on a web server.`);
-        showFallbackRates();
+        console.warn('API Error:', error);
+        currentRates = SAMPLE_RATES;
+        display.innerHTML += '<p class="error">Using sample rates due to API error</p>';
     }
+    
+    updateDisplay();
 }
 
 function hideAllContainers() {
@@ -229,11 +217,4 @@ function showError(message) {
 function updateLastUpdateTime() {
     const now = new Date();
     const timeString = now.toLocaleString();
-    document.getElementById('lastUpdate').textContent = `Last updated: ${timeString}`;
-}
-
-// Auto-refresh every hour (3600000 ms)
-setInterval(fetchRates, 3600000);
-
-// Initial load
-fetchRates();
+    document.getElementById('lastUpdate
