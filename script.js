@@ -39,28 +39,28 @@ function showMainTab(tabId) {
     document.querySelectorAll('.main-tab').forEach(tab => {
         tab.classList.remove('active');
     });
-    
+
     // Remove active class from all main tab buttons
     document.querySelectorAll('.main-tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    
+
     // Show selected main tab
     document.getElementById(tabId + '-tab').classList.add('active');
-    
+
     // Add active class to clicked button
     event.target.classList.add('active');
-    
+
     // Show/hide sub-navigation based on tab
     const btcSubNav = document.getElementById('btc-sub-navigation');
     const btsSubNav = document.getElementById('bts-sub-navigation');
     const stsSubNav = document.getElementById('sts-sub-navigation');
-    
+
     // Hide all sub-navigations first
     btcSubNav.style.display = 'none';
     btsSubNav.style.display = 'none';
     stsSubNav.style.display = 'none';
-    
+
     // Show the appropriate sub-navigation
     if (tabId === 'btc') {
         btcSubNav.style.display = 'flex';
@@ -69,7 +69,7 @@ function showMainTab(tabId) {
     } else if (tabId === 'sts') {
         stsSubNav.style.display = 'flex';
     }
-    
+
     // Display appropriate content
     if (Object.keys(currentRates).length > 0) {
         displayCurrentActiveTab();
@@ -81,18 +81,18 @@ function showPage(pageId) {
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
-    
+
     // Remove active class from all nav buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    
+
     // Show selected page
     document.getElementById(pageId).classList.add('active');
-    
+
     // Add active class to clicked button
     event.target.classList.add('active');
-    
+
     // Update display if we have rates
     if (Object.keys(currentRates).length > 0) {
         if (pageId === 'fiat-per-bits') {
@@ -107,48 +107,76 @@ async function fetchRates() {
     document.getElementById('loading').style.display = 'block';
     document.getElementById('error').style.display = 'none';
     hideAllContainers();
-    
+
     try {
-        // Use a simpler API that works better with CORS
-        const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
+        // Get all supported currencies from our currencies object
+        const currencyList = Object.keys(currencies).join(',');
+
+        // Use CoinGecko API for real-time rates across all currencies
+        const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currencyList}`);
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
         const data = await response.json();
-        const btcUsdRate = data.bpi.USD.rate_float;
-        
-        // Convert to other currencies using approximate rates
-        currentRates = {
-            'usd': btcUsdRate,
-            'eur': btcUsdRate * 0.85,
-            'gbp': btcUsdRate * 0.73,
-            'jpy': btcUsdRate * 110,
-            'aud': btcUsdRate * 1.35,
-            'cad': btcUsdRate * 1.25,
-            'chf': btcUsdRate * 0.88,
-            'cny': btcUsdRate * 6.4,
-            'sek': btcUsdRate * 9.5,
-            'nzd': btcUsdRate * 1.45,
-            'mxn': btcUsdRate * 18,
-            'sgd': btcUsdRate * 1.35,
-            'hkd': btcUsdRate * 7.8,
-            'nok': btcUsdRate * 9.2,
-            'try': btcUsdRate * 27,
-            'zar': btcUsdRate * 15,
-            'brl': btcUsdRate * 5.2,
-            'inr': btcUsdRate * 83,
-            'krw': btcUsdRate * 1300,
-            'twd': btcUsdRate * 31
-        };
-        
-        updateLastUpdateTime();
+
+        // Extract Bitcoin rates for all currencies
+        if (!data.bitcoin) {
+            throw new Error('Invalid data format received from CoinGecko API');
+        }
+
+        currentRates = data.bitcoin;
+
+        updateLastUpdateTime('coingecko');
         displayCurrentActiveTab();
-        
+
     } catch (error) {
-        console.warn('API Error:', error);
-        showError('API Error - Using sample rates. For live rates, please ensure internet connection.');
-        currentRates = SAMPLE_RATES;
-        displayCurrentActiveTab();
+        console.warn('CoinGecko API Error:', error);
+
+        // Fallback to CoinDesk API for USD only, then approximate others
+        try {
+            console.log('Trying fallback CoinDesk API...');
+            const fallbackResponse = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
+
+            if (!fallbackResponse.ok) throw new Error('Fallback API also failed');
+
+            const fallbackData = await fallbackResponse.json();
+            const btcUsdRate = fallbackData.bpi.USD.rate_float;
+
+            // Use approximate rates based on USD price
+            currentRates = {
+                'usd': btcUsdRate,
+                'eur': btcUsdRate * 0.85,
+                'gbp': btcUsdRate * 0.73,
+                'jpy': btcUsdRate * 110,
+                'aud': btcUsdRate * 1.35,
+                'cad': btcUsdRate * 1.25,
+                'chf': btcUsdRate * 0.88,
+                'cny': btcUsdRate * 6.4,
+                'sek': btcUsdRate * 9.5,
+                'nzd': btcUsdRate * 1.45,
+                'mxn': btcUsdRate * 18,
+                'sgd': btcUsdRate * 1.35,
+                'hkd': btcUsdRate * 7.8,
+                'nok': btcUsdRate * 9.2,
+                'try': btcUsdRate * 27,
+                'zar': btcUsdRate * 15,
+                'brl': btcUsdRate * 5.2,
+                'inr': btcUsdRate * 83,
+                'krw': btcUsdRate * 1300,
+                'twd': btcUsdRate * 31
+            };
+
+            updateLastUpdateTime('coindesk');
+            displayCurrentActiveTab();
+            showError('Using CoinDesk fallback API with approximate exchange rates.');
+
+        } catch (fallbackError) {
+            console.warn('All APIs failed:', fallbackError);
+            showError('API Error - Using sample rates. Please check your internet connection.');
+            currentRates = SAMPLE_RATES;
+            updateLastUpdateTime('sample');
+            displayCurrentActiveTab();
+        }
     }
 }
 
@@ -215,23 +243,23 @@ function showPage(pageId) {
     // Get the current active main tab to determine which pages to work with
     const activeMainTab = document.querySelector('.main-tab.active');
     if (!activeMainTab) return;
-    
+
     // Hide all pages within the active main tab
     activeMainTab.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
-    
+
     // Remove active class from all nav buttons in all sub-navigations
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    
+
     // Show selected page
     document.getElementById(pageId).classList.add('active');
-    
+
     // Add active class to clicked button
     event.target.classList.add('active');
-    
+
     // Update display based on the page
     if (Object.keys(currentRates).length > 0) {
         if (pageId === 'fiat-per-btc') {
@@ -364,7 +392,7 @@ function displayFiatPerBits(bitcoinRates) {
         if (bitcoinRates[code]) {
             const bitcoinPrice = bitcoinRates[code];
             const bitsRate = bitcoinPrice / 1000000; // Convert BTC to BITS
-            
+
             const rateCard = createFiatPerBitsCard(code, config, bitsRate);
             container.appendChild(rateCard);
         }
@@ -389,7 +417,7 @@ function displayBitsPerFiat(bitcoinRates) {
         if (bitcoinRates[code]) {
             const bitcoinPrice = bitcoinRates[code];
             const bitsRate = bitcoinPrice / 1000000; // Convert BTC to BITS rate
-            
+
             const amount = config.amount;
             const bitsAmount = amount / bitsRate; // How many BITS you can buy
             const rateCard = createBitsPerFiatCard(code, config, amount, bitsAmount);
@@ -406,12 +434,12 @@ function displayBitsPerFiat(bitcoinRates) {
 function createFiatPerBtcCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
-    
+
     const formattedRate = rate.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
-    
+
     card.innerHTML = `
         <div class="currency-info">
             <span class="currency-flag">${config.flag}</span>
@@ -424,21 +452,21 @@ function createFiatPerBtcCard(currencyCode, config, rate) {
             ${config.symbol}${formattedRate}
         </div>
     `;
-    
+
     return card;
 }
 
 function createBtcPerFiatCard(currencyCode, config, fiatAmount, btcAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
-    
+
     // Format BTC amount with appropriate precision
-    const formattedBtc = btcAmount >= 1 
+    const formattedBtc = btcAmount >= 1
         ? btcAmount.toFixed(4)
         : btcAmount >= 0.001
-        ? btcAmount.toFixed(6)
-        : btcAmount.toExponential(2);
-    
+            ? btcAmount.toFixed(6)
+            : btcAmount.toExponential(2);
+
     card.innerHTML = `
         <div class="currency-info">
             <span class="currency-flag">${config.flag}</span>
@@ -451,7 +479,7 @@ function createBtcPerFiatCard(currencyCode, config, fiatAmount, btcAmount) {
             ${formattedBtc} BTC
         </div>
     `;
-    
+
     return card;
 }
 
@@ -459,12 +487,12 @@ function createBtcPerFiatCard(currencyCode, config, fiatAmount, btcAmount) {
 function createFiatPerSatoshiCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
-    
+
     // Format very small numbers with appropriate precision
-    const formattedRate = rate < 0.000001 
+    const formattedRate = rate < 0.000001
         ? rate.toExponential(2)
         : rate.toFixed(8);
-    
+
     card.innerHTML = `
         <div class="currency-info">
             <span class="currency-flag">${config.flag}</span>
@@ -477,23 +505,23 @@ function createFiatPerSatoshiCard(currencyCode, config, rate) {
             ${config.symbol}${formattedRate}
         </div>
     `;
-    
+
     return card;
 }
 
 function createSatoshiPerFiatCard(currencyCode, config, fiatAmount, satoshiAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
-    
+
     // Format Satoshi amount with appropriate precision
-    const formattedSatoshi = satoshiAmount >= 1000000000 
+    const formattedSatoshi = satoshiAmount >= 1000000000
         ? (satoshiAmount / 1000000000).toFixed(2) + 'B'
         : satoshiAmount >= 1000000
-        ? (satoshiAmount / 1000000).toFixed(2) + 'M'
-        : satoshiAmount >= 1000
-        ? (satoshiAmount / 1000).toFixed(2) + 'K'
-        : satoshiAmount.toFixed(0);
-    
+            ? (satoshiAmount / 1000000).toFixed(2) + 'M'
+            : satoshiAmount >= 1000
+                ? (satoshiAmount / 1000).toFixed(2) + 'K'
+                : satoshiAmount.toFixed(0);
+
     card.innerHTML = `
         <div class="currency-info">
             <span class="currency-flag">${config.flag}</span>
@@ -506,18 +534,18 @@ function createSatoshiPerFiatCard(currencyCode, config, fiatAmount, satoshiAmoun
             ${formattedSatoshi} sats
         </div>
     `;
-    
+
     return card;
 }
 
 function createFiatPerBitsCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
-    
+
     // Format the rate with 6 decimal places and space after 3 digits
     const sixDecimalRate = rate.toFixed(6);
     const formattedRate = sixDecimalRate.replace(/(\.\d{3})(\d{3})$/, '$1 $2');
-    
+
     card.innerHTML = `
         <div class="currency-info">
             <span class="currency-flag">${config.flag}</span>
@@ -530,21 +558,21 @@ function createFiatPerBitsCard(currencyCode, config, rate) {
             ${config.symbol}${formattedRate}
         </div>
     `;
-    
+
     return card;
 }
 
 function createBitsPerFiatCard(currencyCode, config, fiatAmount, bitsAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
-    
+
     // Format BITS amount with 2 decimal places
-    const formattedBits = bitsAmount >= 1000000 
+    const formattedBits = bitsAmount >= 1000000
         ? (bitsAmount / 1000000).toFixed(2) + 'M'
         : bitsAmount >= 1000
-        ? (bitsAmount / 1000).toFixed(2) + 'K'
-        : bitsAmount.toFixed(2);
-    
+            ? (bitsAmount / 1000).toFixed(2) + 'K'
+            : bitsAmount.toFixed(2);
+
     card.innerHTML = `
         <div class="currency-info">
             <span class="currency-flag">${config.flag}</span>
@@ -557,7 +585,7 @@ function createBitsPerFiatCard(currencyCode, config, fiatAmount, bitsAmount) {
             ${formattedBits} BITS
         </div>
     `;
-    
+
     return card;
 }
 
@@ -568,20 +596,35 @@ function showError(message) {
     document.getElementById('loading').style.display = 'none';
 }
 
-function updateLastUpdateTime(usingSampleData = false) {
+function updateLastUpdateTime(source = 'live') {
     const now = new Date();
     const timeString = now.toLocaleString();
-    const prefix = usingSampleData ? 'Sample data loaded: ' : 'Last updated: ';
-    document.getElementById('lastUpdate').textContent = `${prefix}${timeString}`;
+
+    let sourceText = '';
+    switch (source) {
+        case 'coingecko':
+            sourceText = 'CoinGecko API';
+            break;
+        case 'coindesk':
+            sourceText = 'CoinDesk API (approx. rates)';
+            break;
+        case 'sample':
+            sourceText = 'Sample Data';
+            break;
+        default:
+            sourceText = 'Live Data';
+    }
+
+    document.getElementById('lastUpdate').textContent = `Last updated: ${timeString} • Source: ${sourceText}`;
 }
 
 // Initialize the app when page loads
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Start with sample data to avoid loading issues
     currentRates = SAMPLE_RATES;
-    updateLastUpdateTime(true);
+    updateLastUpdateTime('sample');
     displayCurrentActiveTab();
-    
+
     // Then try to fetch real data
     fetchRates();
 });

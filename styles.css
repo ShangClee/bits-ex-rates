@@ -74,6 +74,25 @@ body {
 .last-update {
     color: #666;
     font-size: 14px;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.last-update::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+    background-color: #28a745;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 .rates-grid {
