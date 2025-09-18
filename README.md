@@ -95,22 +95,25 @@ Supports 20 major world currencies:
 
 ## Running the Application
 
-### Option 1: Python HTTP Server (Recommended)
-```bash
-python3 -m http.server 8000
-```
-Then visit: http://localhost:8000
-
-### Option 2: NPM Script
+### Option 1: NPM Script (Recommended)
 ```bash
 npm run start
+# or
+npm run serve
 ```
+Both commands start a Python HTTP server on port 8080. Then visit: http://localhost:8080
+
+### Option 2: Python HTTP Server
+```bash
+python3 -m http.server 8080
+```
+Then visit: http://localhost:8080
 
 ### Option 3: Any Web Server
 Simply serve the files from any web server since it's a static HTML/CSS/JS application.
 
 ### Option 4: Direct File Access
-Open `index.html` directly in your browser (with limited API functionality).
+Open `index.html` directly in your browser (with limited API functionality due to CORS restrictions).
 
 ## Project Structure
 

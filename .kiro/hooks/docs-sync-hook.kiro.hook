@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Monitors JavaScript, HTML, CSS, and configuration files for changes and triggers documentation updates in README.md to keep project documentation current with code changes",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.js",
+      "*.html",
+      "*.css",
+      "package.json",
+      "*.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source files have been modified in this JavaScript web application. Please review the changes and update the README.md file to reflect any new features, API changes, configuration updates, or structural modifications. Ensure the documentation accurately describes the current state of the application including its Bitcoin exchange rate functionality, API integrations, and user interface components."
+  }
+}
