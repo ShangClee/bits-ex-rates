@@ -1,11 +1,13 @@
 # Bitcoin Exchange Rates
 
-A comprehensive web application that displays Bitcoin exchange rates across all three major denominations: Bitcoin (BTC), BITS, and Satoshi (STS).
+A modern, modular web application that displays Bitcoin exchange rates across all three major denominations: Bitcoin (BTC), BITS, and Satoshi (STS). Built with ES6 modules and modern JavaScript practices for enhanced maintainability and extensibility.
 
 ## Overview
 
 This application provides a unified interface for viewing Bitcoin exchange rates in different formats:
 - **1 Bitcoin = 1,000,000 BITS = 100,000,000 satoshis**
+
+The application has been modernized with a modular architecture, featuring separate modules for data processing, formatting, and rate calculations, making it easier to maintain and extend.
 
 ## 3-Tab Complete Structure
 
@@ -51,11 +53,18 @@ Satoshi denomination exchange rates (1 Bitcoin = 100,000,000 satoshis):
 ## Features
 
 ### 🌍 **Multi-Currency Support**
-Supports 20 major world currencies:
-- **Americas**: USD, CAD, MXN, BRL
-- **Europe**: EUR, GBP, CHF, SEK, NOK
-- **Asia-Pacific**: JPY, AUD, NZD, CNY, SGD, HKD, TWD, KRW, INR
-- **Others**: TRY, ZAR
+Supports 20 major world currencies with enhanced metadata and grouping:
+- **Americas**: USD 🇺🇸, CAD 🇨🇦, MXN 🇲🇽, BRL 🇧🇷
+- **Europe**: EUR 🇪🇺, GBP 🇬🇧, CHF 🇨🇭, SEK 🇸🇪, NOK 🇳🇴, TRY 🇹🇷
+- **Asia**: JPY 🇯🇵, CNY 🇨🇳, SGD 🇸🇬, HKD 🇭🇰, TWD 🇹🇼, KRW 🇰🇷, INR 🇮🇳
+- **Oceania**: AUD 🇦🇺, NZD 🇳🇿
+- **Africa**: ZAR 🇿🇦
+
+Each currency includes:
+- Native symbols and flag emojis
+- Precision settings for optimal display
+- Regional grouping for better organization
+- Popular currency prioritization
 
 ### 📱 **Responsive Design**
 - Mobile-friendly grid layout
@@ -70,28 +79,40 @@ Supports 20 major world currencies:
 - Smart error handling and user feedback
 - Last update timestamp display
 
-### 🎯 **Smart Formatting**
-- **BTC amounts**: Decimal precision or scientific notation
-- **BITS amounts**: K/M suffixes for large numbers
-- **Satoshi amounts**: K/M/B suffixes with "sats" abbreviation
-- **Fiat amounts**: Proper currency symbols and formatting
+### 🎯 **Advanced Formatting System**
+- **BTC amounts**: Adaptive precision (4-8 decimals) or scientific notation for very small values
+- **BITS amounts**: K/M suffixes with spaced decimal formatting (e.g., "0.043 000")
+- **Satoshi amounts**: K/M/B suffixes with "sats" abbreviation for readability
+- **Fiat amounts**: Locale-aware formatting with proper currency symbols and positioning
+- **Percentage changes**: Color-coded indicators with proper sign handling
+- **Timestamps**: Human-readable date/time formatting with duration support
 
 ## Technical Implementation
 
-### Navigation System
-- **Main Tabs**: Switch between BTC, BTS, STS
+### Modular Architecture
+The application now uses ES6 modules with clear separation of concerns:
+
+#### **Data Layer**
+- **Currency Configuration**: Centralized currency metadata with grouping and precision settings
+- **Rate Calculator**: Mathematical operations for Bitcoin unit conversions with validation
+- **Formatter**: Comprehensive number, currency, and Bitcoin amount formatting utilities
+
+#### **Navigation System**
+- **Main Tabs**: Switch between BTC, BTS, STS with smooth transitions
 - **Sub Navigation**: Each tab has 2 pages with specific functionality
-- **Dynamic Content**: Shows/hides navigation based on active tab
+- **Dynamic Content**: Shows/hides navigation based on active tab with state management
 
-### Data Processing
-- Converts Bitcoin prices to BITS (÷ 1,000,000) and Satoshi (÷ 100,000,000)
-- Handles both "per unit" and "units per fiat" calculations
-- Implements proper rounding and formatting for each denomination
+#### **Data Processing**
+- Precise Bitcoin unit conversions using constants (1 BTC = 1M BITS = 100M sats)
+- Handles both "per unit" and "units per fiat" calculations with proper precision
+- Implements adaptive rounding and formatting for each denomination
+- Validates rate data for reasonableness and consistency
 
-### Error Handling
-- API failure fallback with sample data
-- Loading states and error messages
-- Graceful degradation for offline use
+#### **Enhanced Error Handling**
+- Multi-tier API fallback system with intelligent retry logic
+- Comprehensive input validation and sanitization
+- Loading states with skeleton screens for better UX
+- Graceful degradation for offline use with cached data
 
 ## Running the Application
 
@@ -119,13 +140,43 @@ Open `index.html` directly in your browser (with limited API functionality due t
 
 ```
 bitcoin-exchange-rates/
-├── index.html          # Main HTML with 3-tab structure
-├── script.js           # Complete JavaScript functionality
-├── styles.css          # CSS styling for all tabs
-├── package.json        # NPM configuration
-├── README.md           # This documentation
-└── .gitignore         # Git ignore rules
+├── index.html                          # Main HTML with 3-tab structure
+├── script.js                           # Main application entry point
+├── styles.css                          # CSS styling for all tabs
+├── package.json                        # NPM configuration
+├── README.md                           # This documentation
+├── .gitignore                         # Git ignore rules
+├── .kiro/                             # Kiro AI assistant configuration
+│   ├── specs/                         # Project specifications and requirements
+│   └── steering/                      # AI guidance and best practices
+└── src/                               # Modular source code
+    └── modules/
+        └── data/
+            ├── currency-config.js      # Currency metadata and configuration
+            ├── rate-calculator.js      # Bitcoin rate conversion logic
+            └── formatter.js            # Number and currency formatting utilities
 ```
+
+### Module Overview
+
+#### **Currency Configuration (`src/modules/data/currency-config.js`)**
+- Centralized currency definitions with symbols, flags, and metadata
+- Regional grouping (Americas, Europe, Asia, Oceania, Africa)
+- Popular currency prioritization for enhanced UX
+- Utility functions for filtering and accessing currency data
+
+#### **Rate Calculator (`src/modules/data/rate-calculator.js`)**
+- Bitcoin unit conversion constants and functions
+- Precise mathematical operations for BTC ↔ BITS ↔ Satoshi conversions
+- Fiat calculation utilities for both directions (crypto per fiat, fiat per crypto)
+- Input validation and rate reasonableness checks
+
+#### **Formatter (`src/modules/data/formatter.js`)**
+- Locale-aware number formatting with international support
+- Currency formatting with proper symbol positioning
+- Bitcoin amount formatting with adaptive precision
+- Large number formatting with K/M/B suffixes
+- Percentage, timestamp, and duration formatting utilities
 
 ## API Integration
 
@@ -138,28 +189,100 @@ bitcoin-exchange-rates/
 
 ## Browser Compatibility
 
-- Modern browsers with ES6+ support
-- Chrome, Firefox, Safari, Edge
-- Mobile browsers (iOS Safari, Chrome Mobile)
-- Progressive enhancement for older browsers
+### Modern Browser Requirements:
+- **ES6 Modules**: Native import/export support required
+- **Chrome 61+**, **Firefox 60+**, **Safari 10.1+**, **Edge 16+**
+- **Mobile**: iOS Safari 10.3+, Chrome Mobile 61+
+- **Features**: Fetch API, async/await, CSS Grid, CSS Variables
+
+### Progressive Enhancement:
+- Core functionality works without JavaScript (static content)
+- Enhanced features require ES6+ support
+- Graceful fallback for unsupported browsers
+- No polyfills required for target browser range
 
 ## Tech Stack
 
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6+)
-- **Styling**: CSS Grid, Flexbox, CSS Variables
-- **API**: Fetch API with async/await
-- **Build**: No build process required - pure static files
-- **Deployment**: Any static web server or CDN
+- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6+ with modules)
+- **Architecture**: ES6 modules with separation of concerns
+- **Styling**: CSS Grid, Flexbox, CSS Variables for theming
+- **API**: Fetch API with async/await and intelligent fallback
+- **Data Processing**: Pure JavaScript with mathematical precision handling
+- **Formatting**: Internationalization-ready number and currency formatting
+- **Build**: No build process required - pure static files with module imports
+- **Deployment**: Any static web server or CDN with ES6 module support
 
 ## Development
 
-The application is built with vanilla web technologies for maximum compatibility and minimal dependencies. No build process or framework required - just open and edit the files directly.
+The application is built with modern vanilla web technologies and ES6 modules for maximum maintainability while avoiding build complexity. The modular architecture makes it easy to extend and modify individual components.
 
 ### Key Files:
 - **`index.html`**: Complete 3-tab structure with all 6 pages
-- **`script.js`**: All functionality including API calls, data processing, and UI updates
+- **`script.js`**: Main application entry point and module orchestration
 - **`styles.css`**: Responsive styling for tabs, navigation, and cards
+- **`src/modules/data/`**: Modular data processing and formatting utilities
+
+### Development Workflow:
+1. **Currency Management**: Edit `currency-config.js` to add/modify supported currencies
+2. **Rate Calculations**: Extend `rate-calculator.js` for new conversion logic
+3. **Display Formatting**: Modify `formatter.js` for custom number/currency formatting
+4. **UI Updates**: Update `script.js` and `styles.css` for interface changes
+
+### Module System:
+The application uses native ES6 modules for better code organization:
+- Import/export syntax for clean module boundaries
+- Separation of concerns with dedicated modules for different functionality
+- Easy testing and maintenance of individual components
+- No build step required - modules work directly in modern browsers
 
 ## License
 
 MIT License - Feel free to use, modify, and distribute.
+## 
+Modernization Progress
+
+This application is currently undergoing modernization as part of a comprehensive enhancement project. The following improvements have been implemented:
+
+### ✅ Completed Features:
+- **Modular ES6 Architecture**: Separated concerns into dedicated modules
+- **Enhanced Currency Configuration**: 20 currencies with metadata, grouping, and flags
+- **Advanced Rate Calculator**: Precise Bitcoin unit conversions with validation
+- **Comprehensive Formatting System**: Locale-aware number and currency formatting
+- **Improved Data Processing**: Mathematical precision and error handling
+
+### 🚧 In Progress:
+- API service layer with caching and offline support
+- Enhanced UI components with loading states and animations
+- User preferences and favorites system
+- Search and filtering capabilities
+- Accessibility improvements and internationalization
+
+### 📋 Planned Features:
+- Progressive Web App capabilities
+- Advanced data visualization and charts
+- Sharing functionality and export options
+- Comprehensive testing infrastructure
+- Performance optimizations and monitoring
+
+For detailed implementation progress, see the project specifications in `.kiro/specs/bitcoin-app-modernization/`.
+
+## Contributing
+
+This project follows modern JavaScript best practices and maintains backward compatibility. When contributing:
+
+1. **Follow ES6+ Standards**: Use modern JavaScript features appropriately
+2. **Maintain Module Boundaries**: Keep concerns separated in dedicated modules
+3. **Preserve No-Build Philosophy**: Avoid introducing build dependencies
+4. **Test Across Browsers**: Ensure compatibility with target browser range
+5. **Document Changes**: Update README and inline documentation as needed
+
+## Roadmap
+
+The application is evolving toward a comprehensive Bitcoin rate platform with:
+- Enhanced user experience and accessibility
+- Advanced features like favorites and search
+- Offline-first architecture with intelligent caching
+- Progressive Web App capabilities
+- Comprehensive testing and monitoring
+
+Stay tuned for updates as we continue modernizing this Bitcoin exchange rate application!

@@ -8,20 +8,20 @@
   - Basic responsive design and error handling
   - _Requirements: 1.1, 1.2, 1.3, 2.2_
 
-- [ ] 2. Refactor to modular ES6 architecture
-  - [ ] 2.1 Create modular directory structure
+- [x] 2. Refactor to modular ES6 architecture
+  - [x] 2.1 Create modular directory structure
     - Create src/modules/ directory structure (api/, data/, ui/, features/, utils/)
     - Extract currency configuration into data/currency-config.js module
     - Add new properties (precision, group, popular) to currency objects
     - _Requirements: 1.1, 1.3_
 
-  - [ ] 2.2 Implement rate calculation module
+  - [x] 2.2 Implement rate calculation module
     - Create data/rate-calculator.js with conversion functions
     - Extract BTC to BITS and Satoshi conversion logic from existing code
     - Add precision handling and rounding for different denominations
     - _Requirements: 1.1, 1.3_
 
-  - [ ] 2.3 Create formatting utilities module
+  - [x] 2.3 Create formatting utilities module
     - Implement data/formatter.js for number and currency formatting
     - Extract existing formatting logic and make it reusable
     - Add locale-aware number formatting and K/M/B suffix formatting
