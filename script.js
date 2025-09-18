@@ -128,6 +128,11 @@ async function fetchRates() {
 
         updateLastUpdateTime('coingecko');
         displayCurrentActiveTab();
+        
+        // Dispatch event for data visualization
+        document.dispatchEvent(new CustomEvent('ratesUpdated', {
+            detail: currentRates
+        }));
 
     } catch (error) {
         console.warn('CoinGecko API Error:', error);
@@ -169,6 +174,11 @@ async function fetchRates() {
             updateLastUpdateTime('coindesk');
             displayCurrentActiveTab();
             showError('Using CoinDesk fallback API with approximate exchange rates.');
+            
+            // Dispatch event for data visualization
+            document.dispatchEvent(new CustomEvent('ratesUpdated', {
+                detail: currentRates
+            }));
 
         } catch (fallbackError) {
             console.warn('All APIs failed:', fallbackError);
@@ -176,6 +186,11 @@ async function fetchRates() {
             currentRates = SAMPLE_RATES;
             updateLastUpdateTime('sample');
             displayCurrentActiveTab();
+            
+            // Dispatch event for data visualization
+            document.dispatchEvent(new CustomEvent('ratesUpdated', {
+                detail: currentRates
+            }));
         }
     }
 }
@@ -434,6 +449,12 @@ function displayBitsPerFiat(bitcoinRates) {
 function createFiatPerBtcCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
+    
+    // Add metadata for sharing functionality
+    card.dataset.currency = currencyCode;
+    card.dataset.type = 'fiat-per-btc';
+    card.dataset.unit = 'BTC';
+    card.dataset.rate = rate.toString();
 
     const formattedRate = rate.toLocaleString('en-US', {
         minimumFractionDigits: 2,
@@ -459,6 +480,14 @@ function createFiatPerBtcCard(currencyCode, config, rate) {
 function createBtcPerFiatCard(currencyCode, config, fiatAmount, btcAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
+    
+    // Add metadata for sharing functionality
+    card.dataset.currency = currencyCode;
+    card.dataset.type = 'btc-per-fiat';
+    card.dataset.unit = 'BTC';
+    card.dataset.rate = (fiatAmount / btcAmount).toString(); // BTC rate in fiat
+    card.dataset.fiatAmount = fiatAmount.toString();
+    card.dataset.btcAmount = btcAmount.toString();
 
     // Format BTC amount with appropriate precision
     const formattedBtc = btcAmount >= 1
@@ -487,6 +516,12 @@ function createBtcPerFiatCard(currencyCode, config, fiatAmount, btcAmount) {
 function createFiatPerSatoshiCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
+    
+    // Add metadata for sharing functionality
+    card.dataset.currency = currencyCode;
+    card.dataset.type = 'fiat-per-satoshi';
+    card.dataset.unit = 'sats';
+    card.dataset.rate = rate.toString();
 
     // Format very small numbers with appropriate precision
     const formattedRate = rate < 0.000001
@@ -512,6 +547,14 @@ function createFiatPerSatoshiCard(currencyCode, config, rate) {
 function createSatoshiPerFiatCard(currencyCode, config, fiatAmount, satoshiAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
+    
+    // Add metadata for sharing functionality
+    card.dataset.currency = currencyCode;
+    card.dataset.type = 'satoshi-per-fiat';
+    card.dataset.unit = 'sats';
+    card.dataset.rate = (fiatAmount / satoshiAmount).toString(); // Satoshi rate in fiat
+    card.dataset.fiatAmount = fiatAmount.toString();
+    card.dataset.satoshiAmount = satoshiAmount.toString();
 
     // Format Satoshi amount with appropriate precision
     const formattedSatoshi = satoshiAmount >= 1000000000
@@ -541,6 +584,12 @@ function createSatoshiPerFiatCard(currencyCode, config, fiatAmount, satoshiAmoun
 function createFiatPerBitsCard(currencyCode, config, rate) {
     const card = document.createElement('div');
     card.className = 'rate-card';
+    
+    // Add metadata for sharing functionality
+    card.dataset.currency = currencyCode;
+    card.dataset.type = 'fiat-per-bits';
+    card.dataset.unit = 'BITS';
+    card.dataset.rate = rate.toString();
 
     // Format the rate with 6 decimal places and space after 3 digits
     const sixDecimalRate = rate.toFixed(6);
@@ -565,6 +614,14 @@ function createFiatPerBitsCard(currencyCode, config, rate) {
 function createBitsPerFiatCard(currencyCode, config, fiatAmount, bitsAmount) {
     const card = document.createElement('div');
     card.className = 'rate-card';
+    
+    // Add metadata for sharing functionality
+    card.dataset.currency = currencyCode;
+    card.dataset.type = 'bits-per-fiat';
+    card.dataset.unit = 'BITS';
+    card.dataset.rate = (fiatAmount / bitsAmount).toString(); // BITS rate in fiat
+    card.dataset.fiatAmount = fiatAmount.toString();
+    card.dataset.bitsAmount = bitsAmount.toString();
 
     // Format BITS amount with 2 decimal places
     const formattedBits = bitsAmount >= 1000000
@@ -624,6 +681,11 @@ document.addEventListener('DOMContentLoaded', function () {
     currentRates = SAMPLE_RATES;
     updateLastUpdateTime('sample');
     displayCurrentActiveTab();
+    
+    // Dispatch initial event for data visualization
+    document.dispatchEvent(new CustomEvent('ratesUpdated', {
+        detail: currentRates
+    }));
 
     // Then try to fetch real data
     fetchRates();

@@ -1,0 +1,595 @@
+/* Mobile Responsiveness Styles */
+
+/* Mobile-First Base Styles */
+.mobile-optimized {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mobile-optimized input,
+.mobile-optimized textarea,
+.mobile-optimized select {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Touch Device Optimizations */
+.touch-device {
+  /* Improve scrolling performance */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.touch-optimized * {
+  /* Optimize for touch interactions */
+  touch-action: manipulation;
+}
+
+/* Touch Feedback */
+.touch-active {
+  transform: scale(0.98);
+  opacity: 0.8;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.rate-card.touch-active {
+  background-color: var(--bg-tertiary);
+  transform: scale(0.98) translateY(1px);
+}
+
+.btn.touch-active,
+.main-tab-btn.touch-active,
+.nav-btn.touch-active {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
+/* Enhanced Touch Targets */
+.enhanced-touch-target {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Swipe Indicators */
+@keyframes swipeIndicator {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.swipe-indicator {
+  animation: swipeIndicator 0.5s ease-out;
+}
+
+/* Viewport Height Handling */
+.app-layout {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Orientation Handling */
+.portrait {
+  /* Portrait-specific styles */
+}
+
+.landscape {
+  /* Landscape-specific styles */
+}
+
+.landscape-compact .app-header {
+  padding: var(--space-md) 0;
+}
+
+.landscape-compact .header h1 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-sm);
+}
+
+.landscape-compact .main-tabs {
+  margin-bottom: var(--space-lg);
+}
+
+.landscape-compact .navigation {
+  margin-bottom: var(--space-lg);
+}
+
+.landscape-compact .main-tab-btn {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.landscape-compact .nav-btn {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+/* Very Small Screen Optimizations */
+.very-small-screen {
+  font-size: 14px;
+}
+
+.very-small-screen .header h1 {
+  font-size: var(--font-size-xl);
+}
+
+.very-small-screen .page-title {
+  font-size: var(--font-size-lg);
+}
+
+.very-small-screen .rate-card {
+  padding: var(--space-md);
+}
+
+.very-small-screen .currency-name {
+  font-size: var(--font-size-sm);
+}
+
+.very-small-screen .rate-value {
+  font-size: var(--font-size-lg);
+}
+
+/* Collapsible Sections */
+.info-toggle {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--space-sm) 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  text-align: left;
+}
+
+.info-toggle:hover,
+.info-toggle:focus {
+  color: var(--color-primary-dark);
+}
+
+.info-toggle::after {
+  content: '▼';
+  transition: transform var(--transition-fast);
+  margin-left: auto;
+}
+
+.info-toggle[aria-expanded="false"]::after {
+  transform: rotate(-90deg);
+}
+
+.info-content {
+  overflow: hidden;
+  transition: max-height var(--transition-normal) ease-out;
+  max-height: 200px;
+}
+
+.info-content.collapsed {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Collapsible Navigation */
+.collapsible-nav {
+  position: relative;
+}
+
+.collapsible-nav .nav-extra {
+  display: none;
+}
+
+.collapsible-nav.expanded .nav-extra {
+  display: inline-flex;
+}
+
+.nav-more-btn {
+  background: var(--color-gray-500);
+  color: var(--text-inverse);
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  margin-left: var(--space-sm);
+}
+
+.nav-more-btn:hover,
+.nav-more-btn:focus {
+  background: var(--color-gray-600);
+}
+
+/* Mobile Breakpoints */
+
+/* Extra Small Devices (phones, 320px and up) */
+@media (max-width: 479px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .app-header,
+  .app-main,
+  .app-footer {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
+  
+  .header h1 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .main-tabs {
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+  }
+  
+  .main-tab-btn {
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-base);
+  }
+  
+  .navigation {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  
+  .nav-btn {
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-base);
+  }
+  
+  .rates-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .rate-card {
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: center;
+    padding: var(--space-lg);
+  }
+  
+  .currency-info {
+    justify-content: center;
+  }
+  
+  .rate-value {
+    text-align: center;
+    font-size: var(--font-size-xl);
+  }
+  
+  .info-box {
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .last-update {
+    font-size: var(--font-size-xs);
+    margin: var(--space-sm) 0;
+  }
+  
+  .refresh-btn {
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Small Devices (landscape phones, 480px and up) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .rates-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-md);
+  }
+  
+  .rate-card {
+    padding: var(--space-lg);
+  }
+  
+  .main-tabs {
+    gap: var(--space-sm);
+  }
+  
+  .navigation {
+    gap: var(--space-sm);
+  }
+}
+
+/* Medium Devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .rates-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .main-tabs {
+    gap: var(--space-md);
+  }
+  
+  .navigation {
+    gap: var(--space-md);
+  }
+}
+
+/* Touch-specific Styles */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .rate-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn:hover,
+  .main-tab-btn:hover,
+  .nav-btn:hover {
+    transform: none;
+  }
+  
+  /* Larger touch targets */
+  .btn,
+  .main-tab-btn,
+  .nav-btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: var(--space-md) var(--space-lg);
+  }
+  
+  .rate-card {
+    min-height: 60px;
+    cursor: pointer;
+  }
+  
+  /* Add active states for touch feedback */
+  .rate-card:active {
+    transform: scale(0.98);
+    background: var(--bg-tertiary);
+  }
+  
+  .btn:active,
+  .main-tab-btn:active,
+  .nav-btn:active {
+    transform: scale(0.95);
+  }
+  
+  /* Improve text selection on touch devices */
+  .currency-name,
+  .rate-value {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .currency-flag {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Landscape Mobile Optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app-header {
+    padding: var(--space-sm) 0;
+  }
+  
+  .app-main {
+    padding: var(--space-md) 0;
+  }
+  
+  .header h1 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .info-box {
+    padding: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+  
+  .main-tabs {
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs);
+  }
+  
+  .navigation {
+    margin-bottom: var(--space-md);
+  }
+  
+  .main-tab-btn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+  
+  .nav-btn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+  
+  .rates-grid {
+    gap: var(--space-sm);
+  }
+  
+  .rate-card {
+    padding: var(--space-md);
+  }
+  
+  .page-title {
+    font-size: var(--font-size-lg);
+    margin: var(--space-md) 0;
+  }
+}
+
+/* Performance Optimizations */
+.scrolling * {
+  pointer-events: none;
+}
+
+.touching * {
+  pointer-events: none;
+}
+
+.scrolling .rate-card,
+.touching .rate-card {
+  will-change: transform;
+}
+
+/* Safe Area Insets for Notched Devices */
+@supports (padding: max(0px)) {
+  .app-header {
+    padding-top: max(var(--space-xl), env(safe-area-inset-top));
+    padding-left: max(var(--space-lg), env(safe-area-inset-left));
+    padding-right: max(var(--space-lg), env(safe-area-inset-right));
+  }
+  
+  .app-footer {
+    padding-bottom: max(var(--space-xl), env(safe-area-inset-bottom));
+    padding-left: max(var(--space-lg), env(safe-area-inset-left));
+    padding-right: max(var(--space-lg), env(safe-area-inset-right));
+  }
+  
+  .main-tabs {
+    margin-left: max(0px, env(safe-area-inset-left));
+    margin-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+/* iOS Specific Optimizations */
+@supports (-webkit-appearance: none) {
+  .btn,
+  .main-tab-btn,
+  .nav-btn {
+    -webkit-appearance: none;
+    border-radius: var(--radius-lg);
+  }
+  
+  input,
+  select,
+  textarea {
+    -webkit-appearance: none;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Android Specific Optimizations */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .rate-card {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
+/* Foldable Device Support */
+@media (spanning: single-fold-vertical) {
+  .rates-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (spanning: single-fold-horizontal) {
+  .app-layout {
+    flex-direction: row;
+  }
+  
+  .app-header {
+    flex: 0 0 50%;
+  }
+  
+  .app-main {
+    flex: 1;
+  }
+}
+
+/* Print Styles for Mobile */
+@media print {
+  .touch-device .rate-card {
+    break-inside: avoid;
+    margin-bottom: var(--space-md);
+  }
+  
+  .main-tabs,
+  .navigation,
+  .refresh-btn,
+  .info-toggle {
+    display: none;
+  }
+  
+  .info-content.collapsed {
+    max-height: none;
+    display: block;
+  }
+  
+  .page {
+    display: block !important;
+  }
+  
+  .main-tab {
+    display: block !important;
+  }
+}
+
+/* Accessibility on Mobile */
+@media (max-width: 767px) {
+  .skip-link {
+    left: var(--space-sm);
+    right: var(--space-sm);
+    width: auto;
+    text-align: center;
+  }
+  
+  .keyboard-focus .rate-card:focus,
+  .keyboard-navigation .rate-card:focus {
+    outline-width: 3px;
+    outline-offset: 1px;
+  }
+  
+  .sr-only {
+    /* Ensure screen reader content is properly hidden on mobile */
+    position: absolute !important;
+    left: -10000px !important;
+  }
+}
+
+/* PWA Optimizations */
+@media (display-mode: standalone) {
+  .app-header {
+    padding-top: calc(var(--space-xl) + 20px); /* Account for status bar */
+  }
+  
+  body {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Dark Mode Mobile Optimizations */
+@media (prefers-color-scheme: dark) and (max-width: 767px) {
+  .touch-active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .rate-card.touch-active {
+    background-color: var(--color-gray-700);
+  }
+}

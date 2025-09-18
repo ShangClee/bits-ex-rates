@@ -1,0 +1,380 @@
+/* Theme System */
+
+/* Light Theme (Default) */
+:root,
+[data-theme="light"] {
+  /* Already defined in variables.css */
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Background Colors */
+  --bg-primary: #1f2937;
+  --bg-secondary: #111827;
+  --bg-tertiary: #374151;
+  
+  /* Text Colors */
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-inverse: #111827;
+  
+  /* Border Colors */
+  --border-color: #374151;
+  --border-color-hover: #4b5563;
+  --border-color-focus: #fbbf24;
+  
+  /* Adjusted Colors for Dark Theme */
+  --color-primary: #fbbf24;
+  --color-primary-dark: #f59e0b;
+  --color-primary-light: #fcd34d;
+  
+  /* Shadows for Dark Theme */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* High Contrast Theme */
+[data-theme="high-contrast"] {
+  /* Background Colors */
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --bg-tertiary: #1a1a1a;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-muted: #cccccc;
+  --text-inverse: #000000;
+  
+  /* Border Colors */
+  --border-color: #ffffff;
+  --border-color-hover: #ffffff;
+  --border-color-focus: #ffff00;
+  
+  /* High Contrast Colors */
+  --color-primary: #ffff00;
+  --color-primary-dark: #cccc00;
+  --color-primary-light: #ffff66;
+  
+  --color-secondary: #00ffff;
+  --color-secondary-dark: #00cccc;
+  --color-secondary-light: #66ffff;
+  
+  --color-success: #00ff00;
+  --color-success-dark: #00cc00;
+  --color-success-light: #66ff66;
+  
+  --color-error: #ff0000;
+  --color-error-dark: #cc0000;
+  --color-error-light: #ff6666;
+  
+  --color-warning: #ffaa00;
+  --color-warning-dark: #cc8800;
+  --color-warning-light: #ffcc66;
+  
+  --color-info: #00aaff;
+  --color-info-dark: #0088cc;
+  --color-info-light: #66ccff;
+  
+  /* Enhanced Shadows for High Contrast */
+  --shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.4), 0 2px 4px -1px rgba(255, 255, 255, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.4), 0 4px 6px -2px rgba(255, 255, 255, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(255, 255, 255, 0.4), 0 10px 10px -5px rgba(255, 255, 255, 0.2);
+  --shadow-2xl: 0 25px 50px -12px rgba(255, 255, 255, 0.6);
+}
+
+/* Auto Theme - Respects System Preference */
+[data-theme="auto"] {
+  /* Light theme by default, overridden by media query below */
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] {
+    /* Background Colors */
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --bg-tertiary: #374151;
+    
+    /* Text Colors */
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-muted: #9ca3af;
+    --text-inverse: #111827;
+    
+    /* Border Colors */
+    --border-color: #374151;
+    --border-color-hover: #4b5563;
+    --border-color-focus: #fbbf24;
+    
+    /* Adjusted Colors for Dark Theme */
+    --color-primary: #fbbf24;
+    --color-primary-dark: #f59e0b;
+    --color-primary-light: #fcd34d;
+    
+    /* Shadows for Dark Theme */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Theme Transition Animations */
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: var(--transition-fast);
+  transition-timing-function: ease-in-out;
+}
+
+/* Disable transitions during theme changes to prevent flashing */
+.theme-transitioning * {
+  transition: none !important;
+}
+
+/* Theme-specific Component Adjustments */
+
+/* Dark Theme Adjustments */
+[data-theme="dark"] .rate-card {
+  background: var(--bg-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .rate-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-xl);
+}
+
+[data-theme="dark"] .main-tab-btn {
+  background: var(--color-gray-700);
+}
+
+[data-theme="dark"] .main-tab-btn:hover:not(.active) {
+  background: var(--color-gray-600);
+}
+
+[data-theme="dark"] .main-tab-btn.active {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+}
+
+[data-theme="dark"] .nav-btn {
+  background: var(--color-secondary);
+}
+
+[data-theme="dark"] .nav-btn:hover:not(.active) {
+  background: var(--color-secondary-dark);
+}
+
+[data-theme="dark"] .info-box {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+[data-theme="dark"] .error {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+/* High Contrast Theme Adjustments */
+[data-theme="high-contrast"] .rate-card {
+  border: 2px solid var(--border-color);
+  background: var(--bg-primary);
+}
+
+[data-theme="high-contrast"] .rate-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+}
+
+[data-theme="high-contrast"] .main-tab-btn {
+  border: 2px solid var(--border-color);
+  background: var(--bg-tertiary);
+}
+
+[data-theme="high-contrast"] .main-tab-btn.active {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  border-color: var(--color-primary);
+}
+
+[data-theme="high-contrast"] .nav-btn {
+  border: 2px solid var(--border-color);
+  background: var(--bg-tertiary);
+}
+
+[data-theme="high-contrast"] .nav-btn.active {
+  background: var(--color-secondary);
+  color: var(--text-inverse);
+  border-color: var(--color-secondary);
+}
+
+[data-theme="high-contrast"] .btn {
+  border: 2px solid currentColor;
+}
+
+[data-theme="high-contrast"] .info-box {
+  border: 2px solid var(--color-info);
+  background: var(--bg-primary);
+}
+
+[data-theme="high-contrast"] .error {
+  border: 2px solid var(--color-error);
+  background: var(--bg-primary);
+}
+
+/* Focus Indicators for High Contrast */
+[data-theme="high-contrast"] *:focus {
+  outline: 3px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* Reduced Motion Theme Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .rate-card:hover {
+    transform: none !important;
+  }
+  
+  .main-tab-btn:hover:not(.active) {
+    transform: none !important;
+  }
+  
+  .nav-btn:hover:not(.active) {
+    transform: none !important;
+  }
+  
+  .btn:hover:not(:disabled) {
+    transform: none !important;
+  }
+}
+
+/* Print Theme */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+  
+  .rate-card {
+    border: 1px solid #ccc !important;
+  }
+  
+  .rate-value {
+    color: black !important;
+  }
+}
+
+/* Theme Toggle Button Styles */
+.theme-toggle {
+  position: fixed;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  z-index: var(--z-fixed);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:hover {
+  background: var(--bg-tertiary);
+  box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid var(--border-color-focus);
+  outline-offset: 2px;
+}
+
+.theme-toggle-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Theme-specific icons */
+[data-theme="light"] .theme-toggle .dark-icon,
+[data-theme="dark"] .theme-toggle .light-icon,
+[data-theme="high-contrast"] .theme-toggle .light-icon,
+[data-theme="high-contrast"] .theme-toggle .dark-icon {
+  display: none;
+}
+
+[data-theme="light"] .theme-toggle .light-icon,
+[data-theme="dark"] .theme-toggle .dark-icon,
+[data-theme="high-contrast"] .theme-toggle .contrast-icon {
+  display: block;
+}
+
+/* Accessibility Enhancements for Themes */
+.theme-announcement {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Color Blind Friendly Adjustments */
+@media (prefers-contrast: more) {
+  :root {
+    --color-success: #0d7377;
+    --color-error: #8b0000;
+    --color-warning: #b8860b;
+    --color-info: #191970;
+  }
+}
+
+/* Large Text Support */
+.large-text {
+  --font-size-xs: 0.875rem;
+  --font-size-sm: 1rem;
+  --font-size-base: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.125rem;
+  --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3.5rem;
+}
+
+/* Compact Mode */
+.compact-mode {
+  --space-xs: 0.125rem;
+  --space-sm: 0.25rem;
+  --space-md: 0.5rem;
+  --space-lg: 0.75rem;
+  --space-xl: 1rem;
+  --space-2xl: 1.25rem;
+  --space-3xl: 1.5rem;
+  --space-4xl: 2rem;
+  --space-5xl: 2.5rem;
+  --space-6xl: 3rem;
+}
+
+.compact-mode .rate-card {
+  padding: var(--space-lg);
+}
+
+.compact-mode .main-tab-btn {
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.compact-mode .nav-btn {
+  padding: var(--space-sm) var(--space-md);
+}
