@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon-preview { margin: 10px; display: inline-block; }
+        canvas { border: 1px solid #ccc; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Bitcoin Exchange Rates - PWA Icon Generator</h1>
+    <p>This page generates the required PWA icons. Open in browser and save the generated images.</p>
+    
+    <div id="icons"></div>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const iconsContainer = document.getElementById('icons');
+        
+        sizes.forEach(size => {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Bitcoin orange background
+            ctx.fillStyle = '#f7931a';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Bitcoin symbol
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('₿', size / 2, size / 2);
+            
+            const preview = document.createElement('div');
+            preview.className = 'icon-preview';
+            preview.innerHTML = `
+                <div>icon-${size}x${size}.png</div>
+                <canvas width="${size}" height="${size}"></canvas>
+                <br>
+                <a href="${canvas.toDataURL()}" download="icon-${size}x${size}.png">Download</a>
+            `;
+            
+            const previewCanvas = preview.querySelector('canvas');
+            const previewCtx = previewCanvas.getContext('2d');
+            previewCtx.drawImage(canvas, 0, 0);
+            
+            iconsContainer.appendChild(preview);
+        });
+    </script>
+</body>
+</html>

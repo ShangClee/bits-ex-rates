@@ -1,0 +1,301 @@
+/**
+ * Performance Optimization Styles
+ * CSS optimizations for better rendering performance and reduced memory usage
+ */
+
+/* Performance-first base optimizations */
+* {
+    box-sizing: border-box;
+}
+
+/* Contain layout and paint for better performance */
+.rate-card {
+    contain: layout style paint;
+    will-change: transform;
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.rate-card:hover {
+    transform: translateZ(0) translateY(-2px) scale(1.01);
+}
+
+/* Optimize flag rendering */
+.flag-icon {
+    contain: strict;
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 2px;
+    flex-shrink: 0;
+    will-change: auto;
+}
+
+.flag-emoji {
+    contain: layout style;
+    font-size: 16px;
+    line-height: 1;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    will-change: auto;
+}
+
+/* Virtual scrolling optimizations */
+.virtual-scroll-container {
+    contain: strict;
+    overflow: hidden;
+    position: relative;
+}
+
+.virtual-scroll-viewport {
+    contain: layout style paint;
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.virtual-item {
+    contain: layout style paint;
+    position: absolute;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+}
+
+/* Lazy loading optimizations */
+.lazy-load {
+    contain: layout;
+    visibility: hidden;
+}
+
+.lazy-load.loaded {
+    visibility: visible;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Reduce paint complexity */
+.currency-info {
+    contain: layout style;
+}
+
+.rate-value {
+    contain: layout style;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Optimize animations for performance */
+@media (prefers-reduced-motion: no-preference) {
+    .rate-card {
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .settings-panel {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .search-input {
+        transition: border-color 0.2s ease;
+    }
+}
+
+/* Reduced effects for low-end devices */
+.reduced-effects .rate-card {
+    transition: none;
+    will-change: auto;
+}
+
+.reduced-effects .rate-card:hover {
+    transform: none;
+}
+
+.reduced-effects * {
+    animation-duration: 0.1s !important;
+    transition-duration: 0.1s !important;
+}
+
+/* Memory optimization */
+.rate-card[data-unused="true"] {
+    display: none;
+}
+
+/* GPU acceleration for critical elements */
+.main-container,
+.rate-grid {
+    transform: translateZ(0);
+}
+
+/* Optimize text rendering */
+.currency-name,
+.rate-value {
+    text-rendering: optimizeSpeed;
+    font-smooth: never;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Optimize for different screen densities */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .flag-icon {
+        background-size: 20px 15px;
+    }
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 640px) {
+    .rate-card {
+        contain: layout style;
+        will-change: auto;
+    }
+    
+    .flag-icon {
+        width: 18px;
+        height: 13px;
+    }
+    
+    /* Reduce complexity on mobile */
+    .rate-card:hover {
+        transform: none;
+    }
+}
+
+/* Print optimizations */
+@media print {
+    * {
+        contain: none !important;
+        will-change: auto !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Performance monitoring styles */
+.performance-monitor {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.performance-monitor.visible {
+    opacity: 1;
+}
+
+.performance-monitor.warning {
+    background: rgba(255, 165, 0, 0.9);
+    color: black;
+}
+
+.performance-monitor.error {
+    background: rgba(255, 0, 0, 0.9);
+    color: white;
+}
+
+/* Skeleton loading optimizations */
+.skeleton-card {
+    contain: layout style paint;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Optimize for high refresh rate displays */
+@media (min-resolution: 120dpi) {
+    .rate-card {
+        transition-duration: 0.1s;
+    }
+}
+
+/* Critical resource hints */
+.preload-hint {
+    display: none;
+}
+
+/* Optimize scrolling performance */
+.scrollable-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scrollable-container {
+        scroll-behavior: auto;
+    }
+}
+
+/* Optimize for touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .rate-card:hover {
+        transform: none;
+    }
+    
+    .rate-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Container query optimizations (future-proofing) */
+@container (max-width: 300px) {
+    .rate-card {
+        contain: layout;
+    }
+}
+
+/* Optimize for dark mode performance */
+@media (prefers-color-scheme: dark) {
+    .rate-card {
+        color-scheme: dark;
+    }
+}
+
+/* Memory-efficient gradients */
+.gradient-bg {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background-attachment: fixed;
+}
+
+/* Optimize for battery saving mode */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Performance debugging styles */
+.debug-performance .rate-card {
+    outline: 1px solid red;
+}
+
+.debug-performance .virtual-item {
+    outline: 1px solid blue;
+}
+
+.debug-performance .lazy-load {
+    outline: 1px solid green;
+}

@@ -29,6 +29,12 @@
 /* Import Mobile Responsiveness Styles */
 @import './mobile.css';
 
+/* Import Performance Optimizations */
+@import './performance.css';
+
+/* Import PWA Styles */
+@import './pwa.css';
+
 /* Application-specific Styles */
 .bitcoin-app {
   min-height: 100vh;

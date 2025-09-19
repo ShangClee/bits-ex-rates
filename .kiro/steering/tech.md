@@ -17,7 +17,7 @@
 # Start local development server
 npm run start
 # or
-python3 -m http.server 8000
+python3 -m http.server 8080
 
 # Alternative serving method
 npm run serve

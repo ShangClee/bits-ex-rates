@@ -16,8 +16,51 @@
     <meta name="theme-color" content="#f7931a">
     <meta name="msapplication-TileColor" content="#f7931a">
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="BTC Rates">
+    <meta name="application-name" content="Bitcoin Exchange Rates">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="msapplication-navbutton-color" content="#f7931a">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/icon-72x72.png">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    <meta name="msapplication-square70x70logo" content="icons/icon-72x72.png">
+    <meta name="msapplication-square150x150logo" content="icons/icon-152x152.png">
+    <meta name="msapplication-wide310x150logo" content="icons/icon-384x384.png">
+    <meta name="msapplication-square310x310logo" content="icons/icon-384x384.png">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-72x72.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-72x72.png">
+    
+    <!-- Preconnect to external APIs -->
+    <link rel="preconnect" href="https://api.coingecko.com">
+    <link rel="preconnect" href="https://api.coindesk.com">
+    
+    <!-- DNS Prefetch for performance -->
+    <link rel="dns-prefetch" href="https://api.coingecko.com">
+    <link rel="dns-prefetch" href="https://api.coindesk.com">
+    
+    <!-- PWA Icon Fallback -->
+    <script src="icons/icon-fallback.js" defer></script>
 </head>
 <body class="bitcoin-app container">
     <!-- Skip Link for Accessibility -->
@@ -190,7 +233,10 @@
     <!-- Initialize enhanced features -->
     <script type="module" src="src/modules/utils/app-initializer.js"></script>
     
-    <!-- Main application script -->
-    <script src="script.js"></script>
+    <!-- Main application script (modular) -->
+    <script type="module" src="main.js"></script>
+    
+    <!-- Legacy fallback script (kept for compatibility) -->
+    <script src="script.js" defer></script>
 </body>
 </html>

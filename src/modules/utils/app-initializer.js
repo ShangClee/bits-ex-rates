@@ -16,7 +16,13 @@ class AppInitializer {
         if (this.initialized) return;
 
         try {
-            // Initialize core utilities first
+            // Initialize performance optimizer first
+            await this.initializePerformanceOptimizer();
+            
+            // Initialize PWA features
+            await this.initializePWA();
+            
+            // Initialize core utilities
             await this.initializeAccessibility();
             await this.initializeKeyboardNavigation();
             await this.initializeMobileEnhancements();
@@ -27,7 +33,7 @@ class AppInitializer {
             // Setup theme system
             await this.initializeThemeSystem();
             
-            // Setup performance monitoring
+            // Setup performance monitoring (legacy)
             this.setupPerformanceMonitoring();
             
             // Mark as initialized
@@ -38,6 +44,36 @@ class AppInitializer {
         } catch (error) {
             console.error('Error initializing app:', error);
             this.handleInitializationError(error);
+        }
+    }
+
+    /**
+     * Initialize performance optimizer
+     */
+    async initializePerformanceOptimizer() {
+        try {
+            const { default: PerformanceOptimizer } = await import('./performance-optimizer.js');
+            const performanceOptimizer = new PerformanceOptimizer();
+            this.modules.set('performance', performanceOptimizer);
+            window.performanceOptimizer = performanceOptimizer;
+            
+        } catch (error) {
+            console.warn('Performance optimizer not available:', error);
+        }
+    }
+
+    /**
+     * Initialize PWA features
+     */
+    async initializePWA() {
+        try {
+            const { default: PWAManager } = await import('./pwa-manager.js');
+            const pwaManager = new PWAManager();
+            this.modules.set('pwa', pwaManager);
+            window.pwaManager = pwaManager;
+            
+        } catch (error) {
+            console.warn('PWA features not available:', error);
         }
     }
 

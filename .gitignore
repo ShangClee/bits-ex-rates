@@ -1,1 +1,14 @@
 node_modules
+
+# Testing
+coverage/
+*.log
+.nyc_output/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

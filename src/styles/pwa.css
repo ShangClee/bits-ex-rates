@@ -1,0 +1,461 @@
+/**
+ * Progressive Web App Styles
+ * Styles for PWA-specific UI elements and features
+ */
+
+/* Install button */
+.install-button {
+    display: none;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.install-button:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.install-button:active {
+    transform: translateY(0);
+}
+
+.install-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Network status indicator */
+.network-status {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    z-index: var(--z-toast);
+    transition: all var(--transition-normal);
+    pointer-events: none;
+}
+
+.network-status.online {
+    background: var(--color-success);
+    color: white;
+    opacity: 0;
+}
+
+.network-status.offline {
+    background: var(--color-error);
+    color: white;
+    opacity: 1;
+}
+
+/* Update banner */
+.update-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-info);
+    color: white;
+    z-index: var(--z-modal);
+    animation: slideInDown var(--transition-normal) ease-out;
+}
+
+.update-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.update-btn {
+    background: white;
+    color: var(--color-info);
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.update-btn:hover {
+    background: var(--color-gray-100);
+}
+
+.dismiss-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    padding: var(--space-xs);
+    margin-left: var(--space-md);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.dismiss-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Offline ready notification */
+.offline-ready-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-success);
+    color: white;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-toast);
+    animation: slideInUp var(--transition-normal) ease-out;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.notification-content svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* PWA splash screen styles */
+.pwa-splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+}
+
+.pwa-splash-logo {
+    width: 120px;
+    height: 120px;
+    background: var(--color-primary);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-4xl);
+    color: white;
+    margin-bottom: var(--space-xl);
+    animation: pulse 2s infinite;
+}
+
+.pwa-splash-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.pwa-splash-subtitle {
+    font-size: var(--font-size-md);
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 300px;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Offline indicator */
+.offline-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--color-warning);
+    color: white;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    z-index: var(--z-toast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    box-shadow: var(--shadow-lg);
+}
+
+.offline-indicator::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0.3;
+    }
+}
+
+/* PWA-specific responsive adjustments */
+@media (display-mode: standalone) {
+    /* Adjust for PWA mode */
+    .app-header {
+        padding-top: env(safe-area-inset-top, 0);
+    }
+    
+    .app-main {
+        padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    
+    /* Hide browser-specific elements */
+    .browser-only {
+        display: none;
+    }
+    
+    /* Show PWA-specific elements */
+    .pwa-only {
+        display: block;
+    }
+}
+
+/* iOS PWA adjustments */
+@media (display-mode: standalone) and (-webkit-touch-callout: none) {
+    .app-header {
+        padding-top: max(env(safe-area-inset-top), 20px);
+    }
+    
+    .install-button {
+        display: none; /* Hide on iOS PWA */
+    }
+}
+
+/* Android PWA adjustments */
+@media (display-mode: standalone) and (not (-webkit-touch-callout: none)) {
+    .app-header {
+        padding-top: env(safe-area-inset-top, 0);
+    }
+}
+
+/* Background sync indicator */
+.sync-indicator {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background: var(--color-info);
+    color: white;
+    padding: var(--space-sm);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-toast);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.sync-indicator.active {
+    opacity: 1;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+/* Push notification styles */
+.push-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-toast);
+    max-width: 300px;
+    animation: slideInRight var(--transition-normal) ease-out;
+}
+
+.push-notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+}
+
+.push-notification-title {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.push-notification-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+}
+
+.push-notification-close:hover {
+    background: var(--bg-secondary);
+}
+
+.push-notification-body {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+}
+
+/* App shortcuts (for supported browsers) */
+.app-shortcuts {
+    display: none;
+}
+
+@media (display-mode: standalone) {
+    .app-shortcuts {
+        display: flex;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+        background: var(--bg-secondary);
+        border-radius: var(--radius-lg);
+        margin: var(--space-md) 0;
+    }
+    
+    .shortcut-btn {
+        flex: 1;
+        padding: var(--space-md);
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        color: var(--text-primary);
+        text-align: center;
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        transition: all var(--transition-fast);
+    }
+    
+    .shortcut-btn:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-1px);
+    }
+}
+
+/* Mobile-specific PWA styles */
+@media (max-width: 640px) {
+    .update-content {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+    }
+    
+    .network-status {
+        font-size: var(--font-size-xs);
+        padding: var(--space-xs) var(--space-sm);
+    }
+    
+    .offline-ready-notification {
+        left: var(--space-md);
+        right: var(--space-md);
+        transform: none;
+    }
+    
+    .push-notification {
+        left: var(--space-md);
+        right: var(--space-md);
+        max-width: none;
+    }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+    .install-button {
+        border: 2px solid currentColor;
+    }
+    
+    .network-status {
+        border: 2px solid currentColor;
+    }
+    
+    .update-banner {
+        border-bottom: 2px solid currentColor;
+    }
+}
+
+/* Reduced motion adjustments */
+@media (prefers-reduced-motion: reduce) {
+    .pwa-splash-logo {
+        animation: none;
+    }
+    
+    .sync-indicator.active {
+        animation: none;
+    }
+    
+    .offline-indicator::before {
+        animation: none;
+        opacity: 1;
+    }
+    
+    .update-banner,
+    .offline-ready-notification,
+    .push-notification {
+        animation: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .install-button,
+    .network-status,
+    .update-banner,
+    .offline-ready-notification,
+    .offline-indicator,
+    .sync-indicator,
+    .push-notification {
+        display: none !important;
+    }
+}
